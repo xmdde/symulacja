@@ -14,14 +14,10 @@ import java.util.Random;
  * Tworzy tablicę obiektów MyTiles, dodaje sąsiadów do każdego z elementów i dodaje je na panel.
  */
 public class Symulation extends Application {
-    /**
-     * Obiekt typu Object niezbędny do synchronizacji zmiany koloru pól.
-     */
     final Object locker = new Object();
 
     @Override
     public void start(Stage stage) throws IOException {
-
         int n = 0, m = 0, k = 0; // n - liczba wierszy, m - kolumn, k - szybkosc dzialania
         double p = 0; // prawdopodobienstwo zmiany koloru (0,1)
         BorderPane borderPane = new BorderPane();
@@ -47,7 +43,6 @@ public class Symulation extends Application {
         }
 
         if (check) {
-
             Scene scene = new Scene(borderPane, 1430.0, 800.0);
             final double width = 1430.0 / m;
             final double height = 800.0 / n;

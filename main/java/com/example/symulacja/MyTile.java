@@ -11,23 +11,11 @@ public class MyTile extends Rectangle implements Runnable {
 
     Random generator;
     final Object locker;
-    /**
-     * Współczynnik koloru czerwonego w kolorze pola.
-     */
     float r = 0;
-    /**
-     * Współczynnik koloru zielonego w kolorze pola.
-     */
     float g = 0;
-    /**
-     * Współczynnik koloru niebieskiego w kolorze pola.
-     */
     float b = 0;
     int k;
     double p;
-    /**
-     * Tablica zawierająca czterech sąsiadów pola.
-     */
     MyTile[] neighbours = new MyTile[4];
 
     /**
@@ -55,7 +43,6 @@ public class MyTile extends Rectangle implements Runnable {
      * Funkcja zmieniająca kolor pola na losowy różniący się od obecnego.
      */
     public void setRandomColor() {
-
         float tmp = r;
         while(tmp == r) {
             tmp = generator.nextFloat();
@@ -79,7 +66,6 @@ public class MyTile extends Rectangle implements Runnable {
      * Funkcja zmieniająca kolor pola na średnią kolorów swoich sąsiadów.
      */
     public void setNbhColor() {
-
         float tmpr = 0, tmpg = 0 , tmpb = 0;
 
         if (neighbours[0]!=null && neighbours[1]!=null && neighbours[2]!=null && neighbours[3]!=null) {
@@ -91,7 +77,6 @@ public class MyTile extends Rectangle implements Runnable {
             this.r = tmpr / 4;
             this.g = tmpg / 4;
             this.b = tmpb / 4;
-
             Color color = new Color(r, g, b, 1.0);
             this.setFill(color);
         }
@@ -104,11 +89,9 @@ public class MyTile extends Rectangle implements Runnable {
      */
     @Override
     public void run() {
-
         this.setRandomColor();
 
         while (true) {
-
             try {
                 double time = 0.5 * k + (generator.nextDouble() * k);
                 Thread.sleep((long) time);
