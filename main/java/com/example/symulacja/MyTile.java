@@ -16,7 +16,7 @@ public class MyTile extends Rectangle implements Runnable {
     float b = 0;
     int k;
     double p;
-    MyTile[] neighbours = new MyTile[4];
+    MyTile[] neighbours;
 
     /**
      * Konstruktor pól. Dla każdego pola tworzony jest wątek, a następnie uruchamiany.
@@ -29,12 +29,13 @@ public class MyTile extends Rectangle implements Runnable {
      * @param generator obiekt Random generator liczb losowych
      * @param locker obiekt, na którym wykonuje się synchronizacja
      */
-    MyTile(double x, double y, double width, double height, int k, double p, Random generator, Object locker) {
+    public MyTile(double x, double y, double width, double height, int k, double p, Random generator, Object locker) {
         super(x, y, width, height);
         this.k = k;
         this.p = p;
         this.generator = generator;
         this.locker = locker;
+        this.neighbours = new MyTile[4];
         Thread thread = new Thread(this);
         thread.start();
     }
@@ -43,21 +44,18 @@ public class MyTile extends Rectangle implements Runnable {
      * Funkcja zmieniająca kolor pola na losowy różniący się od obecnego.
      */
     public void setRandomColor() {
-        float tmp = r;
-        while(tmp == r) {
-            tmp = generator.nextFloat();
+        float tmpr = r;
+        float tmpg = g;
+        float tmpb = b;
+
+        while(tmpr == r && tmpg == g && tmpb == b) {
+            tmpr = generator.nextFloat();
+            tmpg = generator.nextFloat();
+            tmpb = generator.nextFloat();
         }
-        r = tmp;
-        tmp = g;
-        while(tmp == g) {
-            tmp = generator.nextFloat();
-        }
-        g = tmp;
-        tmp = b;
-        while(tmp == b) {
-            tmp = generator.nextFloat();
-        }
-        b = tmp;
+        r = tmpr;
+        g = tmpg;
+        b = tmpb;
         Color color = new Color(r, g, b,1.0);
         this.setFill(color);
     }
@@ -67,7 +65,6 @@ public class MyTile extends Rectangle implements Runnable {
      */
     public void setNbhColor() {
         float tmpr = 0, tmpg = 0 , tmpb = 0;
-
         if (neighbours[0]!=null && neighbours[1]!=null && neighbours[2]!=null && neighbours[3]!=null) {
             for (int i = 0; i < 4; i++) {
                 tmpr += neighbours[i].r;
@@ -82,6 +79,9 @@ public class MyTile extends Rectangle implements Runnable {
         }
     }
 
+    public boolean noNeighbours() {
+        return neighbours[0]==null && neighbours[1]==null && neighbours[2]==null && neighbours[3]==null;
+    }
     /**
      * Funkcja run wykonująca się przez cały czas działania programu.
      * Przy każdym wykonaniu losowane jest opóźnienie z przedziału [0.5k, 1.5k] milisekund,
