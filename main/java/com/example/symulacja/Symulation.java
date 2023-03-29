@@ -16,8 +16,8 @@ public class Symulation extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        int n = 0, m = 0, k = 0; // n - liczba wierszy, m - kolumn, k - szybkosc dzialania
-        double p = 0; // prawdopodobienstwo zmiany koloru (0,1)
+        int n = 0, m = 0, k = 0; // n - number of rows, m - num of columns, k - speed
+        double p = 0; // probability of color change (0,1)
         BorderPane borderPane = new BorderPane();
         boolean check = true;
 

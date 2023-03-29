@@ -2,24 +2,20 @@ package com.example.symulacja;
 
 import javafx.scene.layout.BorderPane;
 
-import java.util.Random;
-
 public class Board {
     public MyTile[][] tiles;
     final double width;
     final double height;
-    final Random generator;
     final Object locker;
 
     Board(int n, int m, int k, double p, BorderPane borderPane) {
         this.locker = new Object();
-        this.generator = new Random();
         this.width = 1430.0 / m;
         this.height = 800.0 / n;
         this.tiles = new MyTile[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                tiles[i][j] = new MyTile(width * j, height * i, width, height, k, p, generator, locker);
+                tiles[i][j] = new MyTile(width * j, height * i, width, height, k, p, locker);
             }
         }
         for (int i = 0; i < n; i++) {

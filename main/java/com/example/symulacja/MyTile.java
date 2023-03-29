@@ -8,8 +8,7 @@ import java.util.Random;
  * Klasa obsługująca pola tworzące planszę w symualcji.
  */
 public class MyTile extends Rectangle implements Runnable {
-
-    Random generator;
+    static Random generator = new Random();
     final Object locker;
     float r = 0;
     float g = 0;
@@ -26,14 +25,12 @@ public class MyTile extends Rectangle implements Runnable {
      * @param height wysokość prostokąta
      * @param k szybkośc działania, opoznienie jest losowane z
      * @param p prawdopodobienstwo zmiany koloru na losowy z zakresu (0,1)
-     * @param generator obiekt Random generator liczb losowych
      * @param locker obiekt, na którym wykonuje się synchronizacja
      */
-    public MyTile(double x, double y, double width, double height, int k, double p, Random generator, Object locker) {
+    public MyTile(double x, double y, double width, double height, int k, double p, Object locker) {
         super(x, y, width, height);
         this.k = k;
         this.p = p;
-        this.generator = generator;
         this.locker = locker;
         this.neighbours = new MyTile[4];
         Thread thread = new Thread(this);
@@ -82,6 +79,7 @@ public class MyTile extends Rectangle implements Runnable {
     public boolean noNeighbours() {
         return neighbours[0]==null && neighbours[1]==null && neighbours[2]==null && neighbours[3]==null;
     }
+
     /**
      * Funkcja run wykonująca się przez cały czas działania programu.
      * Przy każdym wykonaniu losowane jest opóźnienie z przedziału [0.5k, 1.5k] milisekund,
@@ -90,7 +88,6 @@ public class MyTile extends Rectangle implements Runnable {
     @Override
     public void run() {
         this.setRandomColor();
-
         while (true) {
             try {
                 double time = 0.5 * k + (generator.nextDouble() * k);
